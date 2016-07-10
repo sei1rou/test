@@ -1,14 +1,21 @@
-package hello
+package main
 
-import (
-"fmt"
-"net/http"
-)
+import "fmt"
 
-func init() {
-http.HandleFunc("/hello", handler)
+func adder() func(int) int{
+	sum := 0
+	return func(x int) int {
+		sum += x
+		return sum
+	}
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-fmt.Fprint(w, "Hello, world!")
+func main() {
+	pos, neg := adder(), adder()
+	for i := 0; i < 10; i++{
+		fmt.Println(
+			pos(i),
+			neg(-2*i),
+		)
+	}
 }
